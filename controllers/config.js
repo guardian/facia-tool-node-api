@@ -61,7 +61,7 @@ var types = {
 	collection: getCollection,
 	hello: function (req, res, next) {
 		res.send({
-			hello: "world"
+			hello: "you"
 		});
 	}
 };
