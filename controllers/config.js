@@ -58,10 +58,5 @@ function getCollection (req, res, next) {
 }
 
 var types = {
-	collection: getCollection,
-	hello: function (req, res, next) {
-		res.send({
-			hello: "you"
-		});
-	}
+	collection: getCollection
 };
