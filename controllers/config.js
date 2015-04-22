@@ -46,12 +46,16 @@ function getCollection (req, res, next) {
 				next(new Error('Collection ' + id + ' was never pressed'));
 			}
 
+			// Keep the draft private
+			delete collection.raw.draft;
 			res.send({
 				config: collectionConfig,
 				collection: collection.raw
 			});
 		})
-		.catch(next);
+		.catch(function (err) {
+			next(new Error('Error retrieving collection ' + id + ': ' + err.message));
+		});
 	} else {
 		next(new Error('Missing collection ID'));
 	}
