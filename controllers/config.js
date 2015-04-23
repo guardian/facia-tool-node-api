@@ -3,20 +3,20 @@ var config = require('../lib/config');
 var Promise = require('es6-promise').Promise;
 
 module.exports = function (req, res, next) {
+	var tool = new FaciaTool(config({
+		"env": req.query.env
+	}));
+
 	if (!req.action || req.action.length < 1) {
-		getConfig(req, res, next);
+		getConfig(req, res, next, tool);
 	} else if (types[req.action[0]]) {
-		types[req.action[0]](req, res, next);
+		types[req.action[0]](req, res, next, tool);
 	} else {
 		next(new Error('Unknown action'));
 	}
 };
 
-function getConfig (req, res, next) {
-	var tool = new FaciaTool(config({
-		"env": req.query.env
-	}));
-
+function getConfig (req, res, next, tool) {
 	tool.fetchConfig()
 	.then(function (config) {
 		res.send(config.json);
@@ -25,11 +25,7 @@ function getConfig (req, res, next) {
 	.catch(next);
 }
 
-function getCollection (req, res, next) {
-	var tool = new FaciaTool(config({
-		"env": req.query.env
-	}));
-
+function getCollection (req, res, next, tool) {
 	var id = req.action.slice(1).join('/');
 	if (id) {
 		Promise.all([
@@ -40,10 +36,10 @@ function getCollection (req, res, next) {
 				collection = result[1];
 
 			if (!collectionConfig) {
-				next(new Error('Collection ' + id + ' does not exists'));
+				next(new Error('Collection \'' + id + '\' does not exists'));
 			}
 			if (!collection) {
-				next(new Error('Collection ' + id + ' was never pressed'));
+				next(new Error('Collection \'' + id + '\' was never pressed'));
 			}
 
 			// Keep the draft private
@@ -61,6 +57,31 @@ function getCollection (req, res, next) {
 	}
 }
 
+function getFront (req, res, next, tool) {
+	var id = req.action.slice(1).join('/');
+	if (id) {
+		tool.fetchConfig()
+		.then(function (config) {
+			var frontConfig = config.front(id);
+
+			if (!frontConfig) {
+				next(new Error('Front \'' + id + '\' does not exists'));
+			}
+			res.send({
+				config: frontConfig,
+				collections: frontConfig.collections.map(function (collectionId) {
+					var collectionConfig = config.collection(collectionId) || {};
+					collectionConfig.id = collectionId;
+					return collectionConfig;
+				})
+			});
+		});
+	} else {
+		next(new Error('Missing front name'));
+	}
+}
+
 var types = {
-	collection: getCollection
+	collection: getCollection,
+	front: getFront
 };
