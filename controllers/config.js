@@ -14,7 +14,7 @@ module.exports = function (req, res, next) {
 
 function getConfig (req, res, next) {
 	var tool = new FaciaTool(config({
-		"env": "CODE"
+		"env": req.query.env
 	}));
 
 	tool.fetchConfig()
@@ -27,7 +27,7 @@ function getConfig (req, res, next) {
 
 function getCollection (req, res, next) {
 	var tool = new FaciaTool(config({
-		"env": "CODE"
+		"env": req.query.env
 	}));
 
 	var id = req.action.slice(1).join('/');
