@@ -45,6 +45,7 @@ function getCollection (req, res, next, tool) {
 			// Keep the draft private
 			delete collection.raw.draft;
 			res.send({
+				_id: id,
 				config: collectionConfig,
 				collection: collection.raw
 			});
@@ -68,13 +69,16 @@ function getFront (req, res, next, tool) {
 				next(new Error('Front \'' + id + '\' does not exists'));
 			}
 			res.send({
+				_id: id,
 				config: frontConfig,
 				collections: frontConfig.collections.map(function (collectionId) {
 					var collectionConfig = config.collection(collectionId) || {};
-					collectionConfig.id = collectionId;
+					collectionConfig._id = collectionId;
 					return collectionConfig;
 				})
 			});
+		}, function (err) {
+			next(new Error('Unable to fetch the configuration: ' + err.message));
 		});
 	} else {
 		next(new Error('Missing front name'));
