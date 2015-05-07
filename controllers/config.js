@@ -4,7 +4,7 @@ var Promise = require('es6-promise').Promise;
 
 module.exports = function (req, res, next) {
 	var tool = new FaciaTool(config({
-		"env": req.query.env
+		'env': req.query.env
 	}));
 
 	if (!req.action || req.action.length < 1) {
@@ -28,27 +28,16 @@ function getConfig (req, res, next, tool) {
 function getCollection (req, res, next, tool) {
 	var id = req.action.slice(1).join('/');
 	if (id) {
-		Promise.all([
-			tool.fetchConfig(),
-			tool.fetchCollection(id)
-		]).then(function (result) {
-			var collectionConfig = result[0].collection(id),
-				collection = result[1];
-
-			if (!collectionConfig) {
+		tool.fetchCollection(id)
+		.then(function (collection) {
+			collection = collection.toJSON();
+			if (!collection.config) {
 				next(new Error('Collection \'' + id + '\' does not exists'));
-			}
-			if (!collection) {
-				next(new Error('Collection \'' + id + '\' was never pressed'));
 			}
 
 			// Keep the draft private
-			delete collection.raw.draft;
-			res.send({
-				_id: id,
-				config: collectionConfig,
-				collection: collection.raw
-			});
+			delete collection.draft;
+			res.send(collection);
 		})
 		.catch(function (err) {
 			next(new Error('Error retrieving collection ' + id + ': ' + err.message));
@@ -63,22 +52,18 @@ function getFront (req, res, next, tool) {
 	if (id) {
 		tool.fetchConfig()
 		.then(function (config) {
-			var frontConfig = config.front(id);
+			var front = config.front(id);
 
-			if (!frontConfig) {
+			if (!front) {
 				next(new Error('Front \'' + id + '\' does not exists'));
+			} else {
+				res.send(front);
 			}
-			res.send({
-				_id: id,
-				config: frontConfig,
-				collections: frontConfig.collections.map(function (collectionId) {
-					var collectionConfig = config.collection(collectionId) || {};
-					collectionConfig._id = collectionId;
-					return collectionConfig;
-				})
-			});
 		}, function (err) {
 			next(new Error('Unable to fetch the configuration: ' + err.message));
+		})
+		.catch(function (ex) {
+			next(new Error('Error retrieving front ' + id + ': ' + ex.message));
 		});
 	} else {
 		next(new Error('Missing front name'));
