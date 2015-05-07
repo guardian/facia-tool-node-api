@@ -62,8 +62,12 @@ function collections (req, res, next, tool, query) {
 					var json = collection.toJSON();
 					if (tool.query(query, [json]).length) {
 						res.write((sentAny ? ',' : '') + JSON.stringify(json));
-						sentAny = true;
+					} else {
+						// To keep the buffer going. If I don't write for a while
+						// the collection is terminated because idle
+						res.write((sentAny ? ',' : '') + 'null');
 					}
+					sentAny = true;
 				})
 				.then(function () {
 					res.write(']');
