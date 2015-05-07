@@ -3,7 +3,7 @@
   "description": "Node API for facia-tool",
   "version": "0.2.0",
   "dependencies": {
-    "aws-s3-facia-tool": "^0.3.1",
+    "aws-s3-facia-tool": "^0.3.2",
     "es6-promise": "^2.1.0",
     "restify": "^3.0.1"
   },

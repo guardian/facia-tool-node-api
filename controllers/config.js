@@ -19,6 +19,7 @@ module.exports = function (req, res, next) {
 function getConfig (req, res, next, tool) {
 	tool.fetchConfig()
 	.then(function (config) {
+		res.charSet('utf-8');
 		res.send(config.json);
 		next();
 	})
@@ -37,6 +38,7 @@ function getCollection (req, res, next, tool) {
 
 			// Keep the draft private
 			delete collection.draft;
+			res.charSet('utf-8');
 			res.send(collection);
 		})
 		.catch(function (err) {
@@ -57,6 +59,7 @@ function getFront (req, res, next, tool) {
 			if (!front) {
 				next(new Error('Front \'' + id + '\' does not exists'));
 			} else {
+				res.charSet('utf-8');
 				res.send(front);
 			}
 		}, function (err) {

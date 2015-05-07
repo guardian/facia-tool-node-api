@@ -32,6 +32,7 @@ function fronts (req, res, next, tool, query) {
 	tool.fetchConfig()
 	.then(function (config) {
 		try {
+			res.charSet('utf-8');
 			res.send(config.fronts.find(query));
 		} catch (ex) {
 			next(new Error('Error while filtering: ' + ex.message));
@@ -47,19 +48,26 @@ function collections (req, res, next, tool, query) {
 		try {
 			var filteredByConfig = config.collections.find(query);
 			if (filteredByConfig.length) {
+				res.charSet('utf-8');
 				res.send(filteredByConfig);
 			} else {
 				// Couldn't find anything that matches the config, check the collection's
 				// content, WARN this is slow, that's why I don't do it at first
-				tool.findCollections()
-				.then(function (list) {
-					try {
-						res.send(tool.query(query, list.map(function (collection) {
-							return collection.toJSON();
-						})));
-					} catch (ex) {
-						next(new Error('Error while filtering: ' + ex.message));
+				res.writeHead(200, {
+					'Content-Type': 'application/json; charset=utf-8'
+				});
+				res.write('[');
+				var sentAny = false;
+				tool.findCollections(null, function (collection) {
+					var json = collection.toJSON();
+					if (tool.query(query, [json]).length) {
+						res.write((sentAny ? ',' : '') + JSON.stringify(json));
+						sentAny = true;
 					}
+				})
+				.then(function () {
+					res.write(']');
+					res.end();
 				})
 				.catch(function (err) {
 					next(new Error('Unable to list collections: ' + err.message));
