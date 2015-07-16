@@ -1,9 +1,14 @@
 var FaciaTool = require('aws-s3-facia-tool');
-var config = require('../lib/config');
+var createConfig = require('../lib/config');
 var Promise = require('es6-promise').Promise;
 
+var types = {
+	fronts: fronts,
+	collections: collections
+};
+
 module.exports = function (req, res, next) {
-	var tool = new FaciaTool(config({
+	var tool = new FaciaTool(createConfig({
 		'env': req.query.env
 	}));
 
@@ -75,7 +80,7 @@ function collections (req, res, next, tool, query) {
 				})
 				.catch(function (err) {
 					next(new Error('Unable to list collections: ' + err.message));
-				})
+				});
 			}
 		} catch (ex) {
 			next(new Error('Error while filtering: ' + ex.message));
@@ -84,8 +89,3 @@ function collections (req, res, next, tool, query) {
 		next(new Error('Unable to fetch the configuration: ' + err.message));
 	});
 }
-
-var types = {
-	fronts: fronts,
-	collections: collections
-};

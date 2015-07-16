@@ -1,9 +1,14 @@
 var FaciaTool = require('aws-s3-facia-tool');
-var config = require('../lib/config');
+var createConfig = require('../lib/config');
 var Promise = require('es6-promise').Promise;
 
+var types = {
+	collection: getCollection,
+	front: getFront
+};
+
 module.exports = function (req, res, next) {
-	var tool = new FaciaTool(config({
+	var tool = new FaciaTool(createConfig({
 		'env': req.query.env
 	}));
 
@@ -72,8 +77,3 @@ function getFront (req, res, next, tool) {
 		next(new Error('Missing front name'));
 	}
 }
-
-var types = {
-	collection: getCollection,
-	front: getFront
-};
