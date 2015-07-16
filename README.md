@@ -38,3 +38,10 @@ Note, the query must be url encoded.
 All endpoint accept the following search parameters
 
 _`?env=PROD`_ change environment, defaults to `PROD`
+
+# Working locally
+
+To have a local instance working on your machine you need to define some environment variables
+
+* `AWS_ACCESS_KEY_ID`
+* `AWS_SECRET_ACCESS_KEY`
