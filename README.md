@@ -2,9 +2,9 @@
 
 ## config
 
-__`/config/collection/[id]`__ get the configuration and the content of a collection
+__`/config/collection/[id]`__ get the configuration and the content of a collection.
 
-__`/config/front/[id]`__ get the configuration and the list of collections of a front
+__`/config/front/[id]`__ get the configuration and the list of collections of a front.
 
 ## find
 
@@ -33,9 +33,19 @@ The query string matches [mongoDB Query and Projection Operators](http://docs.mo
 
 Note, the query must be url encoded.
 
+## list
+
+__`/list/fronts`__ list all fronts.
+__`/list/collections`__ list all collections.
+
+### query
+
+__`/list/fronts/by/priority/editorial`__ list all _editorial_ fronts.
+__`/list/collections/by/front/uk`__ list all collections inside _uk_ front.
+
 # Filtering
 
-All endpoint accept the following search parameters
+All endpoints accept the following search parameters
 
 _`?env=PROD`_ change environment, defaults to `PROD`
 
