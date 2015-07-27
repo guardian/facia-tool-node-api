@@ -2,6 +2,9 @@ var restify = require('restify');
 var packJson = require('./package.json');
 var fs = require('fs');
 var path = require('path');
+var envInfo = require('./lib/env-info');
+
+console.log(envInfo(packJson, ['AWS_SECRET_ACCESS_KEY']));
 
 var server = restify.createServer({
 	name: packJson.name,
