@@ -36,11 +36,13 @@ Note, the query must be url encoded.
 ## list
 
 __`/list/fronts`__ list all fronts.
+
 __`/list/collections`__ list all collections.
 
 ### query
 
 __`/list/fronts/by/priority/editorial`__ list all _editorial_ fronts.
+
 __`/list/collections/by/front/uk`__ list all collections inside _uk_ front.
 
 # Filtering
