@@ -1,6 +1,5 @@
 var FaciaTool = require('aws-s3-facia-tool');
 var createConfig = require('../lib/config');
-var Promise = require('es6-promise').Promise;
 
 var types = {
 	collection: getCollection,
@@ -25,7 +24,14 @@ function getConfig (req, res, next, tool) {
 	tool.fetchConfig()
 	.then(function (config) {
 		res.charSet('utf-8');
-		res.send(config.json);
+		req.argos.send(config.json, {
+			front: {
+				append: '/{id}',
+			},
+			collection: {
+				append: '/{id}'
+			}
+		});
 		next();
 	})
 	.catch(next);
