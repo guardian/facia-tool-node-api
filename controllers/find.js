@@ -1,6 +1,5 @@
 var FaciaTool = require('aws-s3-facia-tool');
 var createConfig = require('../lib/config');
-var Promise = require('es6-promise').Promise;
 
 var types = {
 	fronts: fronts,

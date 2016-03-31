@@ -19,7 +19,7 @@ function listFronts (req, res, next, tool) {
 					return config.front(front).priority() === filter.value;
 				}));
 			} else {
-				next(new Error('Unkown filter \'' + filter.key + '\''));
+				next(new Error('Unknown filter \'' + filter.key + '\''));
 			}
 		} else {
 			req.argos.send(config.listFrontsIds(), {
@@ -56,7 +56,7 @@ function listCollections (req, res, next, tool) {
 					req.argos.send(config.front(filter.value).allCollections());
 				}
 			} else {
-				next(new Error('Unkown filter \'' + filter.key + '\''));
+				next(new Error('Unknown filter \'' + filter.key + '\''));
 			}
 		} else {
 			req.argos.send(config.listCollectionsIds(), {
