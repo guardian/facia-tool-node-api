@@ -38,12 +38,14 @@ Note, the query must be url encoded.
 __`/list/fronts`__ list all fronts.
 
 __`/list/collections`__ list all collections.
+__`/list/deleted/collections`__ list all collections that are not included in any front.
 
 ### query
 
 __`/list/fronts/by/priority/editorial`__ list all _editorial_ fronts.
 
 __`/list/collections/by/front/uk`__ list all collections inside _uk_ front.
+__`/list/collections/by/front/uk/and/by/front/politics`__ list all collections shared by _uk_ and _politics_ front.
 
 # Filtering
 
