@@ -27,6 +27,12 @@ var possibleFilters = {
 					return front.config.collections.indexOf(collectionId) !== -1;
 				};
 			}
+		},
+		metadata: function (value, config) {
+			return function (collectionId) {
+				var collection = config.collection(collectionId);
+				return collection.hasMetadata(value);
+			};
 		}
 	}
 };
@@ -85,10 +91,16 @@ function listCollections (req, res, next, tool) {
 			req.argos.send(filtered, req.action.length === 0 ? {
 				'by/front': {
 					append: '/{id}'
+				},
+				'by/metadata': {
+					append: '/{type}'
 				}
 			} : {
 				'and/by/front': {
 					append: '/{id}'
+				},
+				'and/by/metadata': {
+					append: '/{type}'
 				}
 			});
 		}

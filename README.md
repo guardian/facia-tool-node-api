@@ -46,6 +46,8 @@ __`/list/fronts/by/priority/editorial`__ list all _editorial_ fronts.
 
 __`/list/collections/by/front/uk`__ list all collections inside _uk_ front.
 __`/list/collections/by/front/uk/and/by/front/politics`__ list all collections shared by _uk_ and _politics_ front.
+__`/list/collections/by/metadata/canonical`__ list all collections tagged _Canonical_.
+__`/list/collections/by/fornt/uk/and/by/metadata/canonical`__ list all collections tagged _Canonical_ inside front _uk_.
 
 # Filtering
 

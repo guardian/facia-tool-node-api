@@ -3,7 +3,7 @@
   "description": "Node API for facia-tool",
   "version": "0.4.0",
   "dependencies": {
-    "aws-s3-facia-tool": "^1.0.0",
+    "aws-s3-facia-tool": "^1.0.2",
     "aws-sdk": "^2.2.48",
     "cli-table": "^0.3.1",
     "restify": "^4.0.4"
