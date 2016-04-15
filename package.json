@@ -1,7 +1,7 @@
 {
   "name": "facia-tool-node-api",
   "description": "Node API for facia-tool",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "dependencies": {
     "aws-s3-facia-tool": "^1.1.0",
     "aws-sdk": "^2.3.0",
