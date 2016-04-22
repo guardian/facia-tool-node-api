@@ -1,36 +1,23 @@
-var FaciaTool = require('aws-s3-facia-tool');
-var createConfig = require('../lib/config');
+var generateHandler = require('../lib/generate-handler');
 
-var types = {
+var handlers = {
 	fronts: fronts,
 	collections: collections
 };
 
-module.exports = function (req, res, next) {
-	var tool = new FaciaTool(createConfig({
-		'env': req.query.env
-	}));
-
-	if (types[req.action[0]]) {
-		var query;
-		try {
-			query = JSON.parse(decodeURIComponent(req.query.q), function (key, val) {
-				if (key === '$regex') {
-					return new RegExp(val, 'g');
-				} else {
-					return val;
-				}
-			});
-		} catch (ex) {
-			next(new Error('Invalid query string'));
-		}
-		if (query) {
-			types[req.action[0]](req, res, next, tool, query);
-		}
-	} else {
-		next(new Error('Unknown action'));
+module.exports = generateHandler(handlers, function (req) {
+	try {
+		return JSON.parse(decodeURIComponent(req.query.q), function (key, val) {
+			if (key === '$regex') {
+				return new RegExp(val, 'g');
+			} else {
+				return val;
+			}
+		});
+	} catch (ex) {
+		return new Error('Invalid query string');
 	}
-};
+});
 
 function fronts (req, res, next, tool, query) {
 	tool.fetchConfig()
