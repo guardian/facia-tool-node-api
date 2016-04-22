@@ -20,7 +20,7 @@ module.exports = generateHandler(handlers, function (req) {
 });
 
 function fronts (req, res, next, tool, query) {
-	tool.fetchConfig()
+	tool.config.fetch()
 	.then(function (config) {
 		try {
 			res.charSet('utf-8');
@@ -34,7 +34,7 @@ function fronts (req, res, next, tool, query) {
 }
 
 function collections (req, res, next, tool, query) {
-	tool.fetchConfig()
+	tool.config.fetch()
 	.then(function (config) {
 		try {
 			var filteredByConfig = config.collections.find(query);

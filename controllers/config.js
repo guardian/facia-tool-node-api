@@ -21,12 +21,12 @@ module.exports = function (req, res, next) {
 };
 
 function getConfig (req, res, next, tool) {
-	tool.fetchConfig()
+	tool.config.fetch()
 	.then(function (config) {
 		res.charSet('utf-8');
 		req.argos.send(config.json, {
 			front: {
-				append: '/{id}',
+				append: '/{id}'
 			},
 			collection: {
 				append: '/{id}'
@@ -63,7 +63,7 @@ function getCollection (req, res, next, tool) {
 function getFront (req, res, next, tool) {
 	var id = req.action.slice(1).join('/');
 	if (id) {
-		tool.fetchConfig()
+		tool.config.fetch()
 		.then(function (config) {
 			var front = config.front(id);
 

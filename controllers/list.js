@@ -57,7 +57,7 @@ var possibleSorters = {
 };
 
 function listFronts (req, res, next, tool) {
-	tool.fetchConfig()
+	tool.config.fetch()
 	.then(function (config) {
 		var list = config.listFrontsIds();
 		var filtered = applyFilters(req.action, 'fronts', config, list);
@@ -80,7 +80,7 @@ function listFronts (req, res, next, tool) {
 }
 
 function listCollections (req, res, next, tool) {
-	tool.fetchConfig()
+	tool.config.fetch()
 	.then(function (config) {
 		var list = config.listCollectionsIds();
 		var filtered = applyFilters(req.action, 'collections', config, list);
@@ -110,7 +110,7 @@ function listCollections (req, res, next, tool) {
 
 function listDeleted (req, res, next, tool) {
 	if (req.action[0] === 'collections') {
-		tool.fetchConfig()
+		tool.config.fetch()
 		.then(function (config) {
 			tool.listCollections()
 			.then(function (list) {
