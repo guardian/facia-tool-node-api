@@ -3,8 +3,8 @@
   "description": "Node API for facia-tool",
   "version": "0.5.1",
   "dependencies": {
-    "aws-s3-facia-tool": "^1.1.0",
-    "aws-sdk": "^2.3.0",
+    "aws-s3-facia-tool": "^1.2.1",
+    "aws-sdk": "^2.3.5",
     "cli-table": "^0.3.1",
     "restify": "^4.0.4"
   },
@@ -14,9 +14,10 @@
     "url": "git@github.com:guardian/facia-tool-node-api.git"
   },
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "test": "tap test"
   },
   "devDependencies": {
-    "tap": "^5.7.0"
+    "tap": "^5.7.1"
   }
 }
